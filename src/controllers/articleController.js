@@ -12,7 +12,7 @@ export class ArticleController {
             };
 
             if (!data.title || data.content || data.image || data.author) {
-                res.send.json({ error: "post can't be created" });
+                res.status(200).json({ error: "post can't be created" });
             }
             console.log(data);
             const _CreateArticle = await new ArticleServices().createArticle(data);
@@ -83,13 +83,13 @@ export class ArticleController {
             ) {
                 allArticles.updatedAt = new Date();
             }
-            if (!req.body.author ||
-                req.body.image ||
-                req.body.content ||
-                req.body.title
-            ) {
-                res.send.json({ error: "post can't be created" });
-            }
+            // if (!req.body.author ||
+            //     req.body.image ||
+            //     req.body.content ||
+            //     req.body.title
+            // ) {
+            //     res.json({ error: "post can't be created" });
+            // }
 
             res
                 .status(200)
