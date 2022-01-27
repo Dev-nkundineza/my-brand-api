@@ -11,9 +11,9 @@ export class ArticleController {
                 author: req.body.author,
             };
 
-            if (!data.title || data.content || data.image || data.author) {
-                res.status(200).json({ error: "post can't be created" });
-            }
+            // if (!data.title || data.content || data.image || data.author) {
+            //     res.status(200).json({ error: "post can't be created" });
+            // }
             console.log(data);
             const _CreateArticle = await new ArticleServices().createArticle(data);
 
