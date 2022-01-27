@@ -31,13 +31,11 @@ export class ArticleController {
     async getAllArticles(req, res, next) {
         try {
             const allArticles = await new ArticleServices().getAllArticles();
-            res
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "these are all articles",
-                    data: allArticles,
-                });
+            res.status(200).json({
+                status: 200,
+                message: "these are all articles",
+                data: allArticles,
+            });
         } catch (error) {
             console.log(error);
         }
@@ -47,13 +45,11 @@ export class ArticleController {
     async getArticle(req, res, next) {
         try {
             const allArticles = await new ArticleServices().getArticle(req.params.id);
-            res
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "you are getting one post",
-                    data: allArticles,
-                });
+            res.status(200).json({
+                status: 200,
+                message: "you are getting one post",
+                data: allArticles,
+            });
         } catch (error) {
             console.log(error);
         }
@@ -91,13 +87,11 @@ export class ArticleController {
             //     res.json({ error: "post can't be created" });
             // }
 
-            res
-                .status(200)
-                .json({
-                    status: 200,
-                    message: "you are getting one post",
-                    data: allArticles,
-                });
+            res.status(200).json({
+                status: 200,
+                message: "you are getting one post",
+                data: allArticles,
+            });
         } catch (error) {
             console.log(error);
         }
@@ -107,8 +101,8 @@ export class ArticleController {
     async deleteArticle(req, res, next) {
         try {
             await new ArticleServices().deleteArticle(req.params.id);
-            res.status(204);
-            res.send();
+            res.status(204).json({ status: 204, message: "deleted successfully" });
+
         } catch (error) {
             console.log(error);
         }
