@@ -1,21 +1,29 @@
-// import the model you need to access
-
-import Query from '../models/query.js'
+import Query from "../models/query.js";
 export class QueryServices {
-    constructor() {}
-
     async sendQuery(data) {
-        const query = await Query(data)
-        query.save()
-        return query
+        try {
+            const query = await Query(data);
+            query.save();
+            return query;
+        } catch (error) {
+            console.log(error);
+        }
     }
+
     async getAllQuery() {
-        const query = await Query.find()
-        return query;
+        try {
+            const query = await Query.find();
+            return query;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async deleteQuery(id) {
-
-        await Query.deleteOne({ _id: id })
+        try {
+            await Query.deleteOne({ _id: id });
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
