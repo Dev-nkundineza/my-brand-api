@@ -1,5 +1,4 @@
 import Profile from "../models/user.js";
-
 export class UserServices {
     async createUser(data) {
             try {
