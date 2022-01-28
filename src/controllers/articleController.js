@@ -1,26 +1,39 @@
 import { ArticleServices } from "../services/articleServices.js";
+import cloudinary from "cloudinary"
+import 'dotenv/config'
+
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_USER_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secrete: process.env.CLOUDINARY_API_SECRET,
+});
+
 export class ArticleController {
     // CREATE ARTICLE
     // TODO Don't access database from this file you only needs
+
+
     async createArticle(req, res, next) {
         try {
-            const data = {
-                title: req.body.title,
-                content: req.body.content,
-                image: req.body.image,
-                author: req.body.author,
-            };
+            cloudinary.v2.uploader.upload(req.file.path, async function(err, image) {
+                if (err) {
+                    console.warn(error);
+                }
 
-            // if (!data.title || data.content || data.image || data.author) {
-            //     res.status(200).json({ error: "post can't be created" });
-            // }
-            console.log(data);
-            const _CreateArticle = await new ArticleServices().createArticle(data);
-
-            res.status(200).json({
-                status: 200,
-                message: "you successful created a post",
-                data: _CreateArticle,
+                req.body.image = image.Url;
+                const data = {
+                    title: req.body.title,
+                    content: req.body.content,
+                    image: req.body.image,
+                    author: req.body.author,
+                };
+                const _CreateArticle = await new ArticleServices().createArticle(data);
+                res.status(200).json({
+                    status: 200,
+                    message: "you create a post successfully ",
+                    data: _CreateArticle,
+                });
             });
         } catch (error) {
             console.log(error);
@@ -102,7 +115,6 @@ export class ArticleController {
         try {
             await new ArticleServices().deleteArticle(req.params.id);
             res.status(204).json({ status: 204, message: "deleted successfully" });
-
         } catch (error) {
             console.log(error);
         }
