@@ -1,9 +1,14 @@
-import { UserServices } from "../services/userServices.js";
+import { UserServices } from "../services/userServices.js"
+import bcrypt from "bcryptjs"
 export class userController {
     async createProfile(req, res, next) {
+
+
+        const hashed = await bcrypt.hash(req.body.password, 12)
+
         const data = {
             username: req.body.username,
-            password: req.body.password,
+            password: hashed,
         };
         const saveUser = await new UserServices().createUser(data);
         res.status(200).json({
