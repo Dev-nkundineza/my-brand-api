@@ -1,5 +1,5 @@
 import { ArticleServices } from "../services/articleServices.js";
-import cloudinary from "../../helper/imageUpload.js";
+import cloudinary from "../../helpers/imageUpload.js";
 import "dotenv/config";
 
 export class ArticleController {
