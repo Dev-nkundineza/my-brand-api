@@ -1,12 +1,13 @@
 import express from 'express'
-import welcomeRoutes from "./api/welcomeRoutes.js"
-import articleRoutes from "./api/articleRoutes.js"
+import queriesRoutes from "./api/queriesRoutes.js"
+
 
 
 const routes = express.Router()
-
 routes.use('/', welcomeRoutes)
 routes.use('/articles', articleRoutes)
+
+routes.use('/queries', queriesRoutes)
 
 
 export default routes
