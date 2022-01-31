@@ -1,4 +1,4 @@
-import cloudinary from "cloudinary";
+import cloudinary from "./imageUpload.js";
 export const fileUpload = async(req) => {
     let imageUrl = "";
     await cloudinary.v2.uploader.upload(
