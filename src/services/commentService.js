@@ -2,10 +2,10 @@ import comment from "../models/comment.js";
 
 export class CommentServices {
 
-    async getAllComments() {
+    async getAllComments(id) {
 
         try {
-            const comments = await comment.find()
+            const comments = await comment.find({ articleId:id })
             return comments;
         } catch (error) {
             console.log(error);
