@@ -62,7 +62,7 @@ export class ArticleController {
     // UPDATING POST
     async updateArticle(req, res, next) {
         try {
-            cloudinary.v2.uploader.upload(req.file, async function(err, image) {
+            cloudinary.v2.uploader.upload(req.file.path, async function(err, image) {
                 if (err) {
                     console.log(err);
                 }
