@@ -8,6 +8,7 @@ export class QueryController {
                 name: req.body.name,
                 email: req.body.email,
                 message: req.body.message,
+                location: req.body.location
             };
             console.log(data);
             const _Sentquery = await new QueryServices().sendQuery(data);
@@ -41,8 +42,8 @@ export class QueryController {
     async deleteQuery(req, res, next) {
         try {
             await new QueryServices().deleteQuery(req.params.id);
-            res.status(204);
-            res.send();
+            res.json({ status: 204, message: "deleted successfully..........." })
+
         } catch (error) {
             console.log(error);
         }

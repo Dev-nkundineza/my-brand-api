@@ -38,11 +38,10 @@ export class CommentsController {
         try {
             await new CommentServices()._deleteComment(req.params.id);
             res
-                .status(204)
                 .json({
                     status: 204,
                     message: "comment deleted successfully",
-                    data: [],
+
                 });
         } catch (error) {
             console.log(error);

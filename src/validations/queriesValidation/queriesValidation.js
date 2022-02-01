@@ -1,4 +1,4 @@
-import { querySchema } from "./queries.schema"
+import { querySchema } from "./queries.schema.js"
 export const queryValidation = async(req, res, next) => {
     const value = await querySchema.validate(req.body);
     if (value.error) {

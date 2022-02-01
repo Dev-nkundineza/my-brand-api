@@ -1,4 +1,4 @@
-import { commentSchema } from "./comment.schema";
+import { commentSchema } from "./comment.schema.js";
 export const commentValidation = async(req, res, next) => {
 
     const value = await commentSchema.validate(req.body);
