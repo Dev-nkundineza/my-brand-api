@@ -1,5 +1,6 @@
 import { ArticleServices } from "../services/articleServices.js";
 import cloudinary from "../../helpers/imageUpload.js";
+import { fileUpload } from "../../helpers/fileUpload.js"
 import "dotenv/config";
 
 export class ArticleController {
@@ -7,25 +8,22 @@ export class ArticleController {
 
     async createArticle(req, res, next) {
         try {
-            cloudinary.v2.uploader.upload(req.file.path, async function(err, image) {
-                if (err) {
-                    console.warn(error);
-                }
 
-                req.body.image = image.url;
-                const data = {
-                    title: req.body.title,
-                    content: req.body.content,
-                    image: req.body.image,
-                    author: req.body.author,
-                };
-                const _CreateArticle = await new ArticleServices().createArticle(data);
-                res.status(200).json({
-                    status: 200,
-                    message: "you create a post successfully ",
-                    data: _CreateArticle,
-                });
+
+            req.body.image = await fileUpload(req);
+            const data = {
+                title: req.body.title,
+                content: req.body.content,
+                image: req.body.image,
+                author: req.body.author,
+            };
+            const _CreateArticle = await new ArticleServices().createArticle(data);
+            res.status(200).json({
+                status: 200,
+                message: "you create a post successfully ",
+                data: _CreateArticle,
             });
+
         } catch (error) {
             console.log(error);
         }
@@ -49,11 +47,17 @@ export class ArticleController {
     async getArticle(req, res, next) {
         try {
             const allArticles = await new ArticleServices().getArticle(req.params.id);
-            res.status(200).json({
-                status: 200,
-                message: "you are getting one post",
-                data: allArticles,
-            });
+
+            if (allArticles) {
+                res.status(200).json({
+                    status: 200,
+                    message: "you are getting one post",
+                    data: allArticles,
+                });
+            } else {
+                res.status(404).json({ status: 404, message: "post not found " })
+            }
+
         } catch (error) {
             console.log(error);
         }
@@ -62,41 +66,25 @@ export class ArticleController {
     // UPDATING POST
     async updateArticle(req, res, next) {
         try {
-            cloudinary.v2.uploader.upload(req.file, async function(err, image) {
-                if (err) {
-                    console.log(err);
-                }
-                req.body.image = image.url;
-                const allArticles = await new ArticleServices().updateArticle(
-                    req.params.id
-                );
-                if (req.body.title) {
-                    allArticles.title = req.body.title;
-                }
-                if (req.body.content) {
-                    allArticles.content = req.body.content;
-                }
-                if (req.body.image) {
-                    allArticles.image = req.body.image;
-                }
-                if (req.body.author) {
-                    allArticles.author = req.body.author;
-                }
-                if (
-                    req.body.author ||
-                    req.body.image ||
-                    req.body.content ||
-                    req.body.title
-                ) {
-                    allArticles.updatedAt = new Date();
-                }
+            if (req.file) {
+                req.body.image = await fileUpload(req);
+            }
 
-                res.status(200).json({
-                    status: 200,
-                    message: "you update this article ",
-                    data: allArticles,
-                });
+            const allArticles = await new ArticleServices().updateArticle(
+                req.params.id, req.body
+            );
+            if (!allArticles) {
+                res.status(404).json({ status: 404, message: "no such post you want to update" })
+            }
+            res.status(200).json({
+                status: 200,
+                message: `you update this article with id:${req.params.id} `,
+                data: allArticles,
             });
+
+
+
+
         } catch (error) {
             console.log(error);
         }
@@ -105,8 +93,11 @@ export class ArticleController {
     // DELETE A POST
     async deleteArticle(req, res, next) {
         try {
-            await new ArticleServices().deleteArticle(req.params.id);
-            res.status(204).json({ status: 204, message: "deleted successfully" });
+            const getItemToDelete = await new ArticleServices().deleteArticle(req.params.id);
+            if (!getItemToDelete) {
+                res.status(404).json({ message: "the article you are trying to delete doesn't exist" })
+            }
+            res.json({ status: 204, message: "deleted successfully" });
         } catch (error) {
             console.log(error);
         }

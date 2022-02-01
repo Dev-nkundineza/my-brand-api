@@ -15,7 +15,7 @@ export class QueryController {
 
             res.status(200).json({
                 status: 200,
-                message: "you successful send post",
+                message: "you successful send query",
                 data: _Sentquery,
             });
         } catch (error) {

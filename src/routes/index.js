@@ -12,7 +12,7 @@ routes.use("/", welcomeRoutes);
 routes.use("/articles", articleRoutes);
 routes.use("/queries", queriesRoutes);
 routes.use("/user", userRoutes);
-routes.use("/user", commentRoutes);
+routes.use("/comment", commentRoutes);
 
 
 export default routes;

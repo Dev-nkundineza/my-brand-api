@@ -12,6 +12,7 @@ const route = express.Router()
 
 route.post('/register', uploads.single('picture'), userValidation, userControllels.createProfile)
 route.post('/login', userControllels.login)
+route.patch('/edit/:id', userControllels.updateProfile)
 
 
 export default route

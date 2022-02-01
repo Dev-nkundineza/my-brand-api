@@ -14,3 +14,18 @@ export const createUser = async(user) => {
     userCreated.save();
     return userCreated;
 };
+
+// update profile
+export const updateUser = async(id) => {
+    try {
+        const user = await Account.findOne({ _id: id })
+        if (user) {
+            return user;
+        } else {
+            throw new Error("no such user")
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+}

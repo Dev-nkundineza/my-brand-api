@@ -1,4 +1,4 @@
-import { CommentServices } from "../services/commentService.js ";
+import { CommentServices } from "../services/commentService.js";
 export class CommentsController {
     async getComments(req, res, next) {
         try {
@@ -7,7 +7,7 @@ export class CommentsController {
             );
             res.status(200).json({
                 status: 200,
-                message: "these are all of the comments",
+                message: "these are all of the comments retrieved",
                 data: comments,
             });
         } catch (error) {
@@ -23,7 +23,7 @@ export class CommentsController {
                 comment: req.body.comment,
             };
 
-            const _addedComment = await new CommentServices()._addComment(data);
+            const _addedComment = await new CommentServices().addComments(data, req.params.id);
             res.status(200).json({
                 status: 200,
                 message: "you added this comment",
@@ -37,12 +37,10 @@ export class CommentsController {
     async deleteComment(req, res, next) {
         try {
             await new CommentServices()._deleteComment(req.params.id);
-            res
-                .json({
-                    status: 204,
-                    message: "comment deleted successfully",
-
-                });
+            res.json({
+                status: 204,
+                message: "comment deleted successfully",
+            });
         } catch (error) {
             console.log(error);
         }

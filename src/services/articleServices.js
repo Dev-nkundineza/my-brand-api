@@ -1,4 +1,5 @@
 import Article from "../models/article.js";
+import comment from "../models/comment.js";
 export class ArticleServices {
     constructor() {}
 
@@ -15,11 +16,35 @@ export class ArticleServices {
         const singleArticle = await Article.findOne({ _id: id });
         return singleArticle;
     }
-    async updateArticle(id) {
+    async updateArticle(id, data) {
         const singleArticle = await Article.findOne({ _id: id });
-        return singleArticle;
+        if (!singleArticle) {
+            return false;
+        } else {
+            singleArticle.title = data.title ? data.title : singleArticle.title;
+            singleArticle.content = data.content ?
+                data.content :
+                singleArticle.content;
+            singleArticle.image = data.image ? data.image : singleArticle.image;
+            singleArticle.author = data.author ? data.author : singleArticle.author;
+            const updatedArticle = await singleArticle.save();
+            return updatedArticle;
+        }
     }
+
+
     async deleteArticle(id) {
-        await Article.deleteOne({ _id: id });
+        try {
+            const result = await Article.findByIdAndDelete(id);
+            await comment.deleteMany({ articleId: id });
+            // commentTodelete.delete();
+            if (!result) {
+                return false;
+            } else {
+                return "article deleted successfully";
+            }
+        } catch (error) {
+            return "the article you are trying to delete doesn't exist";
+        }
     }
 }
