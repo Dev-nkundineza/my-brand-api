@@ -31,20 +31,4 @@ export class ArticleServices {
             return updatedArticle;
         }
     }
-
-
-    async deleteArticle(id) {
-        try {
-            const result = await Article.findByIdAndDelete(id);
-            await comment.deleteMany({ articleId: id });
-            // commentTodelete.delete();
-            if (!result) {
-                return false;
-            } else {
-                return "article deleted successfully";
-            }
-        } catch (error) {
-            return "the article you are trying to delete doesn't exist";
-        }
-    }
 }
