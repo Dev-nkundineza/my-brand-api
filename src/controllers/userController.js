@@ -67,12 +67,12 @@ export class userController {
                     res.status(403).json({ status: 403, message: "invalid credentials" })
                 }
                 const token = await generateToken({ id: exists._id })
-                res.status(201).json({ status: 201, message: "successfully logged in", accessToken: token })
+                res.status(200).json({ status: 200, message: "successfully logged in", accessToken: token })
             } else {
                 res.status(403).json({ status: 403, message: "invalid credentials" })
             }
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ message: "Internal server error!" })
         }
 
     }

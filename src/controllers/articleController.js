@@ -8,9 +8,12 @@ export class ArticleController {
 
     async createArticle(req, res, next) {
         try {
+            if (req.file) {
+                req.body.image = await fileUpload(req);
+            } else {
+                req.body.image = 'https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/'
+            }
 
-
-            req.body.image = await fileUpload(req);
             const data = {
                 title: req.body.title,
                 content: req.body.content,

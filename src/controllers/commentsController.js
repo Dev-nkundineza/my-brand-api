@@ -24,8 +24,8 @@ export class CommentsController {
             };
 
             const _addedComment = await new CommentServices().addComments(data, req.params.id);
-            res.status(200).json({
-                status: 200,
+            res.status(201).json({
+                status: 201,
                 message: "you added this comment",
                 comment: _addedComment,
             });
