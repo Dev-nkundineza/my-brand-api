@@ -1,8 +1,8 @@
 // import { UserServices } from "../services/userServices.js"
-import { generateToken } from "../../helpers/jwtFunctions.js"
-import { comparePassword, hashPassword } from "../../helpers/passwordSecurity.js"
+import { generateToken } from "../helpers/jwtFunctions.js"
+import { comparePassword, hashPassword } from "../helpers/passwordSecurity.js"
 import { userExist, createUser, updateUser } from "../services/userServices.js"
-import { fileUpload } from "../../helpers/fileUpload.js"
+import { fileUpload } from "../helpers/fileUpload.js"
 
 
 export class userController {

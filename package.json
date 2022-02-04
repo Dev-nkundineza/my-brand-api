@@ -1,8 +1,5 @@
 {
     "name": "my-brand-api",
-    "type": "module",
-    "version": "1.0.0",
-    "description": "",
     "main": "index.js",
     "scripts": {
         "build": "babel src -d dist",
@@ -13,7 +10,7 @@
     },
     "betterScripts": {
         "dev": {
-            "command": "nodemon ./src/app.js",
+            "command": "nodemon --exec npx babel-node ./src/app.js",
             "env": {
                 "NODE_ENV": "development",
                 "PORT": 3000
@@ -46,7 +43,7 @@
     "homepage": "",
     "dependencies": {
         "@babel/cli": "^7.17.0",
-        "@babel/preset-env": "^7.16.11",
+        "@babel/runtime": "^7.17.0",
         "@hapi/joi": "^17.1.1",
         "bcrypt": "^5.0.1",
         "bcryptjs": "^2.4.3",
@@ -66,6 +63,8 @@
     "devDependencies": {
         "@babel/core": "^7.16.12",
         "@babel/node": "^7.16.8",
+        "@babel/plugin-transform-runtime": "^7.17.0",
+        "@babel/preset-env": "^7.16.11",
         "chai": "^4.3.6",
         "chai-http": "^4.3.0",
         "coveralls": "^3.1.1",

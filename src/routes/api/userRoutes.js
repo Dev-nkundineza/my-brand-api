@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { fileFilter } from "../../../helpers/fileFilter.js";
+import { fileFilter } from "../../helpers/fileFilter.js";
 import { userValidation } from "../../validations/userValidation/userValidation.js";
 
 import { userController } from "../../controllers/userController.js";

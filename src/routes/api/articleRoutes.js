@@ -4,7 +4,7 @@ import { ArticleController } from "../../controllers/articleController.js";
 import { authenticate } from "../../middlewares/authanticate.js";
 import { articleValidation } from "../../validations/articleValidation/articleValidation.js";
 
-const authatication = await new authenticate().auth;
+const authatication = new authenticate().auth;
 
 const route = express.Router();
 const storage = multer.diskStorage({});
