@@ -1,0 +1,86 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "MY BRAND API",
+        "description": "MY BRAND API",
+        "version": "1.0.0"
+    },
+
+    "servers": [{
+        "url": "http://localhost:3000",
+        "name": "DEV"
+    }],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": ["Home"],
+                "summary": ["Home"],
+                "description": "Home",
+                "operationId": "Home",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/register": {
+            "post ": {
+                "tags": ["Users"],
+                "summary": "login",
+                "description": "login",
+                "operationId": "postUserLogin",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "description": "login",
+                    "required": true,
+                    "schema": {
+                        "$refs": "#/definitions/Login"
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "user registered"
+                    }
+                }
+            }
+        },
+        "/api/v1/user/login": {
+            "post ": {
+                "tags": ["log user in"],
+                "summary": "login",
+                "description": "login",
+                "operationId": "postUserLogin",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "description": "login",
+                    "required": true,
+                    "schema": {
+                        "$refs": "#/definitions/Login"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        },
+        "/api/v1/articles": {
+            "post ": {
+                "tags": ["Articles"],
+                "summary": "get articles",
+                "description": "get articles",
+                "operationId": "get articles",
+
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    }
+                }
+            }
+        }
+    }
+}

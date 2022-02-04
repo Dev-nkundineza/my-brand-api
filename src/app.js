@@ -4,7 +4,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
 import routes from "./routes/index.js";
-// import swaggerDocument from '../swagger.json';
+import swaggerDocument from '../swagger.json';
 import "dotenv/config";
 
 const app = express();
@@ -28,7 +28,7 @@ try {
     app.use(cors());
     app.use(morgan("dev"))
     app.use("/api/v1/", routes);
-    // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
     app.get("/", (req, res) => {
         res.json({ message: "WELCOME TO MY API" })
     })
