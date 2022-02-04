@@ -27,26 +27,6 @@ export class ArticleController {
                 message: "you create a post successfully ",
                 data: _CreateArticle,
             });
-
-            cloudinary.v2.uploader.upload(req.file.path, async function(err, image) {
-                if (err) {
-                    console.warn(error);
-                }
-
-                req.body.image = image.url;
-                const data = {
-                    title: req.body.title,
-                    content: req.body.content,
-                    image: req.body.image,
-                    author: req.body.author,
-                };
-                const _CreateArticle = await new ArticleServices().createArticle(data);
-                res.status(200).json({
-                    status: 200,
-                    message: "you create a post successfully ",
-                    data: _CreateArticle,
-                });
-            });
         } catch (error) {
             console.log(error);
         }
