@@ -1,11 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "MY BRAND API",
-        "description": "MY BRAND API",
+        "title": "API",
+        "description": "API",
         "version": "1.0.0"
     },
-
     "servers": [{
         "url": "http://localhost:3000",
         "name": "DEV"
@@ -14,73 +13,289 @@
         "/": {
             "get": {
                 "tags": ["Home"],
-                "summary": ["Home"],
+                "summary": "Home",
                 "description": "Home",
-                "operationId": "Home",
+                "operationId": "getHome",
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "Success"
                     }
                 }
             }
         },
+
+
         "/api/v1/user/register": {
-            "post ": {
+            "post": {
                 "tags": ["Users"],
-                "summary": "login",
-                "description": "login",
-                "operationId": "postUserLogin",
+                "summary": "register a user",
+                "description": "user registration",
+                "operationId": "user registration",
                 "parameters": [{
-                    "name": "body",
-                    "in": "body",
-                    "description": "login",
-                    "required": true,
-                    "schema": {
-                        "$refs": "#/definitions/Login"
-                    }
+                    "name": "username",
+                    "in": "formData",
+                    "description": "Username",
+                    "required": true
+                }, {
+                    "name": "email",
+                    "in": "formData",
+                    "description": "email",
+                    "required": true
+                }, {
+                    "name": "password",
+                    "in": "formData",
+                    "description": "password",
+                    "required": true
+                }, {
+                    "name": "picture",
+                    "in": "formData",
+                    "type": "file",
+                    "description": "Username"
+
                 }],
                 "responses": {
                     "201": {
-                        "description": "user registered"
+                        "description": "user registered Successfully",
+                        "schema": {
+                            "$ref": "#/definitions/register"
+                        }
                     }
                 }
             }
         },
+
+
         "/api/v1/user/login": {
-            "post ": {
-                "tags": ["log user in"],
-                "summary": "login",
-                "description": "login",
-                "operationId": "postUserLogin",
+            "post": {
+                "tags": ["Users"],
+                "summary": "Login",
+                "description": "Login",
+                "operationId": "postUsersLogin",
                 "parameters": [{
                     "name": "body",
                     "in": "body",
-                    "description": "login",
+                    "description": "Login",
                     "required": true,
                     "schema": {
-                        "$refs": "#/definitions/Login"
+                        "$ref": "#/definitions/Login"
                     }
                 }],
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     }
                 }
             }
         },
-        "/api/v1/articles": {
-            "post ": {
-                "tags": ["Articles"],
-                "summary": "get articles",
-                "description": "get articles",
-                "operationId": "get articles",
 
+
+        "/api/v1/articles": {
+            "get": {
+                "tags": ["Articles"],
+                "summary": "Get all articles",
+                "description": "Get all articles",
+                "operationId": "getArticles",
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Articles"],
+                "summary": "Create article",
+                "description": "Create article",
+                "operationId": "postArticles",
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization",
+                        "required": true
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "description": "title",
+                        "required": true
+                    },
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "content",
+                        "required": true
+                    },
+                    {
+                        "name": "image",
+                        "in": "formData",
+                        "type": "file",
+                        "description": "image",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 }
             }
+        },
+
+
+
+        "/api/v1/articles/{articleId}": {
+            "get": {
+                "tags": ["Articles"],
+                "summary": "get article by id",
+                "description": "get article by id",
+                "operationId": "articleId",
+
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": "get article by id",
+                    "required": true
+
+                }],
+                "responses": {
+                    "200": {
+                        "description": "retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/articleId"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid ID Supplied"
+                    },
+                    "404": {
+                        "description": "article not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Articles"],
+                "summary": "delete article by id",
+                "description": "delete article by id",
+                "operationId": "articleId",
+
+                "parameters": [{
+                    "name": "Authorization",
+                    "in": "header",
+                    "required": "true"
+
+                }],
+                "responses": {
+                    "204": {
+                        "description": "deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/deleteId"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid ID Supplied"
+                    },
+                    "404": {
+                        "description": "article not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/comment/{articleId}": {
+            "post": {
+                "tags": ["Comment"],
+                "summary": "add comment",
+                "description": "add comment",
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": "get article  id",
+                    "required": true
+
+                }, {
+                    "name": "name",
+                    "in": "body",
+                    "description": "name",
+                    "required": true
+                }, {
+                    "name": "comment",
+                    "in": "body",
+                    "description": "message",
+                    "required": true
+                }],
+                "responses": {
+                    "201": {
+                        "description": "comment added successfully",
+                        "schema": {
+                            "$ref": "#/definitions/comment"
+                        }
+
+                    }
+                }
+            }
+        },
+
+
+        "definitions": {
+            "Login": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "articleId": {
+                "type": "string",
+                "properties": {
+                    "Id": {
+                        "type": "string"
+                    }
+                }
+
+
+            },
+            "deleteId": {
+                "type": "string",
+                "Id": {
+                    "type": "string"
+                }
+            },
+            "register": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "picture": {
+                        "type": "string"
+                    }
+                }
+
+            },
+            "comment": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    }
+
+                }
+            }
+
         }
     }
 }
