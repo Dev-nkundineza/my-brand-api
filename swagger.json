@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "API",
-        "description": "API",
+        "title": "MY BRAND API",
+        "description": "my brand api",
         "version": "1.0.0"
     },
     "servers": [{
@@ -55,10 +55,8 @@
                 }],
                 "responses": {
                     "201": {
-                        "description": "user registered Successfully",
-                        "schema": {
-                            "$ref": "#/definitions/register"
-                        }
+                        "description": "user registered Successfully"
+
                     }
                 }
             }
@@ -133,6 +131,11 @@
                         "type": "file",
                         "description": "image",
                         "required": true
+                    }, {
+                        "name": "author",
+                        "in": "formData",
+                        "description": "author",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -178,13 +181,19 @@
                 "tags": ["Articles"],
                 "summary": "delete article by id",
                 "description": "delete article by id",
-                "operationId": "articleId",
+                "operationId": "delArticle",
 
                 "parameters": [{
                     "name": "Authorization",
                     "in": "header",
                     "required": "true"
 
+                }, {
+                    "name": "articleId",
+                    "in": "path",
+                    "description": " Enter article ID in the path",
+                    "required": true,
+                    "type": "string"
                 }],
                 "responses": {
                     "204": {
@@ -198,6 +207,45 @@
                     },
                     "404": {
                         "description": "article not found"
+                    }
+                }
+            },
+
+            "patch": {
+                "tags": ["Articles"],
+                "summary": "update the article with given id",
+                "description": " ",
+                "operationId": "updateArticle",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization",
+                        "required": true
+                    },
+                    {
+                        "name": "articleId",
+                        "in": "path",
+                        "description": " Enter article ID in the path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Edit Article",
+                        "in": "body",
+                        "description": "Edit Article",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Article"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Article updated successfully!"
+                    },
+                    "404": {
+                        "description": "article with that id not found"
                     }
                 }
             }
@@ -214,15 +262,13 @@
                     "required": true
 
                 }, {
-                    "name": "name",
+                    "name": "Comment section",
                     "in": "body",
-                    "description": "name",
-                    "required": true
-                }, {
-                    "name": "comment",
-                    "in": "body",
-                    "description": "message",
-                    "required": true
+                    "description": "Leave a comment",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Comment"
+                    }
                 }],
                 "responses": {
                     "201": {
@@ -233,69 +279,188 @@
 
                     }
                 }
+            },
+            "get": {
+                "tags": ["Comment"],
+                "summary": "Get all comments of given article",
+                "description": "Get all comments of given article",
+                "operationId": "getComments",
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": " Enter the article ID",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "All comments retrieved successfuly!"
+                    }
+                }
             }
         },
-
-
-        "definitions": {
-            "Login": {
-                "type": "object",
-                "properties": {
-                    "email": {
-                        "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
+        "/api/v1/queries": {
+            "get": {
+                "tags": ["Queries"],
+                "summary": "Get all queries",
+                "description": "Get all queries",
+                "operationId": "getQueries",
+                "parameters": [{
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Authorization",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "All Queries retrieved successfuly!"
                     }
                 }
             },
-            "articleId": {
-                "type": "string",
-                "properties": {
-                    "Id": {
-                        "type": "string"
+            "post": {
+                "tags": ["Queries"],
+                "summary": "Send a query",
+                "description": "Send a query",
+                "operationId": "query",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "description": "Send a query",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Query"
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Message sent successfuly!"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
-
-
-            },
-            "deleteId": {
-                "type": "string",
-                "Id": {
-                    "type": "string"
-                }
-            },
-            "register": {
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string"
+            }
+        },
+        "/api/v1/queries/{queryId}": {
+            "delete": {
+                "tags": ["Queries"],
+                "summary": "delete a query with given ID",
+                "description": " ",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization",
+                        "required": true
                     },
-                    "email": {
-                        "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
-                    },
-                    "picture": {
+                    {
+                        "name": "queryId",
+                        "in": "path",
+                        "descrpition": "Please enter a query id here",
+                        "required": true,
                         "type": "string"
                     }
-                }
-
-            },
-            "comment": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Query deleted Successfuly"
                     },
-                    "comment": {
-                        "type": "string"
+                    "404": {
+                        "description": "Query not found"
                     }
-
                 }
             }
 
         }
+    },
+
+    "definitions": {
+        "Login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "articleId": {
+            "type": "string",
+            "properties": {
+                "Id": {
+                    "type": "string"
+                }
+            }
+
+
+        },
+        "deleteId": {
+            "type": "string",
+            "Id": {
+                "type": "string"
+            }
+        },
+        "register": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                }
+            }
+
+        },
+        "Comment": {
+            "type": "object",
+            "required": ["name", "comment"],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                }
+
+            }
+        },
+        "Article": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "file"
+                }
+            }
+        },
+        "Query": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+
     }
 }

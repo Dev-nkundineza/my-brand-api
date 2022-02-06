@@ -19,9 +19,8 @@ export const querySchema = joi.object({
         "string.max": "message is too long ",
         "any.required": "message is required",
     }),
-    location: joi.string().required().empty().messages({
-        "string.base": "location must be valid",
-        "string.empty": "location is not allowed to be empty",
-        "any.required": "location is required",
+    location: joi.string().messages({
+        "string.base": "location must be valid"
+
     }),
 });
