@@ -113,6 +113,22 @@ export class ArticleController {
                 if (req.body.author) {
                     allArticles.author = req.body.author;
                 }
+
+                // checking for some absent
+
+                // if (!req.body.title) {
+                //     allArticles.title = allArticles.title;
+                // }
+                // if (!req.body.content) {
+                //     allArticles.content = allArticles.content;
+                // }
+                // if (!req.body.image) {
+                //     allArticles.image = allArticles.image;
+                // }
+                // if (!req.body.author) {
+                //     allArticles.author = allArticles.author;
+                // }
+                //ended here
                 if (
                     req.body.author ||
                     req.body.image ||

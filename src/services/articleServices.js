@@ -31,4 +31,10 @@ export class ArticleServices {
             return updatedArticle;
         }
     }
+    async deleteArticle(id) {
+        await Article.findByIdAndDelete({ _id: id });
+        await comment.deleteMany({ articleId: id });
+        return true
+
+    }
 }

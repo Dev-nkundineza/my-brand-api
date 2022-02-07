@@ -30,9 +30,7 @@ route.get("/:id", articleControllers.getArticle);
 route.patch(
     "/:id",
     authatication,
-    uploads.single("image"),
-    articleValidation,
-    articleControllers.updateArticle
+    uploads.single("image"), articleControllers.updateArticle
 );
 route.delete("/:id", authatication, articleControllers.deleteArticle);
 

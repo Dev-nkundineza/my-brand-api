@@ -5,11 +5,16 @@ export class CommentsController {
             const comments = await new CommentServices().getAllComments(
                 req.params.articleId
             );
-            res.status(200).json({
-                status: 200,
-                message: "these are all of the comments retrieved",
-                data: comments,
-            });
+            if (!req.params.articleId) {
+                res.status(404).json({ message: "ARTICLE NOT FOUND" })
+            } else {
+                res.status(200).json({
+                    status: 200,
+                    message: "these are all of the comments retrieved",
+                    data: comments,
+                });
+            }
+
         } catch (error) {
             console.log(error);
         }

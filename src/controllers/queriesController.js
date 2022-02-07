@@ -4,11 +4,14 @@ export class QueryController {
 
     async sendQuery(req, res, next) {
         try {
+            if (!req.body.location) {
+                req.body.location = "unknown";
+            }
             const data = {
                 name: req.body.name,
                 email: req.body.email,
                 message: req.body.message,
-                location: req.body.location
+                location: req.body.location,
             };
             console.log(data);
             const _Sentquery = await new QueryServices().sendQuery(data);
@@ -42,8 +45,7 @@ export class QueryController {
     async deleteQuery(req, res, next) {
         try {
             await new QueryServices().deleteQuery(req.params.id);
-            res.json({ status: 204, message: "deleted successfully..........." })
-
+            res.json({ status: 204, message: "deleted successfully..........." });
         } catch (error) {
             console.log(error);
         }

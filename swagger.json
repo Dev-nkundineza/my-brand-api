@@ -3,15 +3,39 @@
     "info": {
         "title": "MY BRAND API",
         "description": "my brand api",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "contact": {
+            "name": "David NKUNDINEZA",
+            "email": "niyonzimadeus2002@gmail.com"
+        }
+    },
+
+
+
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+
+            }
+        }
+    },
+    "security": {
+        "bearerAuth": []
     },
     "servers": [{
         "url": "http://localhost:3000",
         "name": "DEV"
     }],
+
     "paths": {
         "/": {
             "get": {
+                "security": {
+                    "bearerAuth": []
+                },
                 "tags": ["Home"],
                 "summary": "Home",
                 "description": "Home",
@@ -50,7 +74,7 @@
                     "name": "picture",
                     "in": "formData",
                     "type": "file",
-                    "description": "Username"
+                    "description": "picture"
 
                 }],
                 "responses": {
@@ -58,6 +82,7 @@
                         "description": "user registered Successfully"
 
                     }
+
                 }
             }
         },
@@ -88,7 +113,62 @@
                 }
             }
         },
+        "/api/v1/users/edit/{userId}": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "update user info",
+                "description": " ",
+                "consumes": ["multipart/form-data"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization",
+                        "required": true
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    }, {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Username",
+                        "required": true
+                    }, {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "email",
+                        "required": true
+                    }, {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "password",
+                        "required": true
+                    }, {
+                        "name": "picture",
+                        "in": "formData",
+                        "type": "file",
+                        "description": "Username"
 
+
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successfully updated user with given id"
+                    },
+                    "409": {
+                        "description": "please fill in all fields"
+                    },
+                    "404": {
+                        "description": "user you want to update does not exist"
+                    }
+                }
+            }
+        },
 
         "/api/v1/articles": {
             "get": {
@@ -231,14 +311,31 @@
                         "type": "string"
                     },
                     {
-                        "name": "Edit Article",
-                        "in": "body",
-                        "description": "Edit Article",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Article"
-                        }
+                        "name": "title",
+                        "in": "formData",
+                        "description": "title",
+                        "required": true
+                    },
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "content",
+                        "required": true
+                    },
+                    {
+                        "name": "image",
+                        "in": "formData",
+                        "type": "file",
+                        "description": "image",
+                        "required": true
+
+                    }, {
+                        "name": "author",
+                        "in": "formData",
+                        "description": "author",
+                        "required": true
                     }
+
                 ],
                 "responses": {
                     "200": {
@@ -274,7 +371,7 @@
                     "201": {
                         "description": "comment added successfully",
                         "schema": {
-                            "$ref": "#/definitions/comment"
+                            "$ref": "#/definitions/Comment"
                         }
 
                     }
@@ -373,7 +470,6 @@
 
         }
     },
-
     "definitions": {
         "Login": {
             "type": "object",
@@ -420,6 +516,23 @@
             }
 
         },
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "file"
+                }
+            }
+        },
         "Comment": {
             "type": "object",
             "required": ["name", "comment"],
@@ -459,6 +572,7 @@
                 "message": {
                     "type": "string"
                 }
+
             }
         }
 
