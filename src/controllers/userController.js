@@ -77,7 +77,7 @@ export class userController {
 
             try {
                 if (req.file) {
-                    req.body.image = await fileUpload(req);
+                    req.body.picture = await fileUpload(req);
                 }
                 const getUser = await updateUser(
                     req.params.id, req.body

@@ -13,7 +13,7 @@ export class QueryController {
                 message: req.body.message,
                 location: req.body.location,
             };
-            console.log(data);
+
             const _Sentquery = await new QueryServices().sendQuery(data);
 
             res.status(200).json({

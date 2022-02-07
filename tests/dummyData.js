@@ -24,3 +24,24 @@ export const addcomment = {
     name: "david",
     comment: "hello this is test"
 }
+
+export const queryData = {
+    name: "davis",
+    email: "email2@gmail.com",
+    message: "hello message"
+}
+
+
+export const forupdateUser = {
+    username: "davis",
+    email: "myemail@gmail.com",
+    password: "pass1234@",
+    picture: "https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/"
+}
+
+export const updatedArticleInfo = {
+    title: "newly updated article",
+    content: "my updated article",
+    image: "https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/",
+    author: "dave"
+}
