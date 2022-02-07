@@ -114,12 +114,6 @@
                 "summary": "Get all users",
                 "description": "Get all users",
                 "operationId": "getUsers",
-                "parameters": [{
-                    "name": "Authorization",
-                    "in": "header",
-                    "description": "Authorization",
-                    "required": true
-                }],
 
                 "responses": {
                     "200": {
