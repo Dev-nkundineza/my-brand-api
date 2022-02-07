@@ -136,11 +136,6 @@
                 "consumes": ["multipart/form-data"],
                 "produces": ["application/json"],
                 "parameters": [{
-                    "name": "Authorization",
-                    "in": "header",
-                    "description": "Authorization",
-                    "required": true
-                }, {
                     "name": "userId",
                     "in": "path",
                     "type": "string",
@@ -165,12 +160,6 @@
                 "operationId": "updatedUser",
                 "produces": ["application/json"],
                 "parameters": [{
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Authorization",
-                        "required": true
-                    },
-                    {
                         "name": "userId",
                         "in": "path",
                         "type": "string",
