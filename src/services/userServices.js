@@ -16,16 +16,43 @@ export const createUser = async(user) => {
 };
 
 // update profile
-export const updateUser = async(id) => {
+export const updateUser = async(id, data) => {
     try {
         const user = await Account.findOne({ _id: id })
-        if (user) {
-            return user;
+        if (!user) {
+            return false;
         } else {
-            throw new Error("no such user")
+
+            user.username = data.username ? data.username : user.username;
+            user.email = data.email ? data.email : user.email;
+            user.password = data.password ? data.password : user.password;
+            user.picture = data.picture ? data.picture : user.picture;
+            const updatedUser = await user.save();
+            return updatedUser;
         }
     } catch (error) {
         console.log(error);
     }
 
+}
+
+
+export const allUsers = async() => {
+    const user = await Account.find();
+    if (user) {
+        return user;
+    } else {
+        return false;
+    }
+};
+
+
+export const getUser = async(id) => {
+    const singleUser = await Account.findOne({ _id: id });
+    return singleUser;
+}
+
+export const deleteUser = async(id) => {
+    const deletedUser = await Account.findByIdAndDelete({ _id: id });
+    return deletedUser;
 }

@@ -1,7 +1,7 @@
 // import { UserServices } from "../services/userServices.js"
 import { generateToken } from "../helpers/jwtFunctions.js"
 import { comparePassword, hashPassword } from "../helpers/passwordSecurity.js"
-import { userExist, createUser, updateUser } from "../services/userServices.js"
+import { userExist, createUser, updateUser, allUsers, getUser, deleteUser } from "../services/userServices.js"
 import { fileUpload } from "../helpers/fileUpload.js"
 
 
@@ -39,7 +39,40 @@ export class userController {
             }
 
         }
-        //update profile
+        //get all users
+
+
+    async getAlluser(req, res, next) {
+            try {
+                const foundUsers = await allUsers()
+                if (foundUsers) {
+                    res.status(200).json({
+                        status: 200,
+                        message: "users retrieved successfully!",
+                        data: foundUsers
+                    })
+                }
+            } catch (error) {
+                res.status(500).json({ error: "server error" })
+            }
+        }
+        //get single user
+    async getOneUser(req, res, next) {
+        try {
+            const user = await getUser(req.params.id)
+            if (user) {
+                res.status(200).json({
+                    status: 200,
+                    message: "users retrieved successfully!",
+                    data: user
+                })
+            }
+        } catch (error) {
+            res.status(500).json({ error: "server error" })
+        }
+    }
+
+    //update profile
     async updateProfile(req, res, next) {
 
             try {
@@ -47,11 +80,19 @@ export class userController {
                     req.body.image = await fileUpload(req);
                 }
                 const getUser = await updateUser(
-                    req.params.id
+                    req.params.id, req.body
                 );
+                if (!getUser) {
+                    res.status(404).json({ status: 404, message: "user not found" })
+                } else {
+                    res.status(200).json({
+                        status: 200,
+                        message: "user profile updated successfully",
+                        data: getUser
+                    });
+                }
 
 
-                res.json(getUser);
             } catch (error) {
                 console.log(error)
             }
@@ -75,5 +116,19 @@ export class userController {
             res.status(500).json({ message: "Internal server error!" })
         }
 
+    }
+
+
+    async deleteUser(req, res, next) {
+        try {
+            const getUserDeleted = await deleteUser(req.params.id)
+            if (!getUserDeleted) {
+                res.status(404).json({ error: "no user found" })
+            } else {
+                res.json({ status: 204, message: "user deleted successfully" })
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

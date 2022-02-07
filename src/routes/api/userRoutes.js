@@ -1,11 +1,13 @@
 import express from "express";
 import multer from "multer";
 import { fileFilter } from "../../helpers/fileFilter.js";
+import { authenticate } from "../../middlewares/authanticate.js";
 import { userValidation } from "../../validations/userValidation/userValidation.js";
 
 import { userController } from "../../controllers/userController.js";
 
 const userControllels = new userController();
+const authatication = new authenticate().auth;
 
 const storage = multer.diskStorage({});
 const uploads = multer({ storage, fileFilter });
@@ -18,6 +20,9 @@ route.post(
     userControllels.createProfile
 );
 route.post("/login", userControllels.login);
-route.patch("/edit/:id", userControllels.updateProfile);
+route.get("", authatication, userControllels.getAlluser);
+route.get("/:id", authatication, userControllels.getOneUser);
+route.delete("/:id", authatication, userControllels.deleteUser);
+route.patch("/:id", authatication, uploads.single("image"), userControllels.updateProfile);
 
 export default route;

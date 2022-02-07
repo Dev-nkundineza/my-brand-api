@@ -61,11 +61,6 @@ export class ArticleController {
                 res.status(404).json({ status: 404, message: "post not found " });
             }
 
-            res.status(200).json({
-                status: 200,
-                message: "you are getting one post",
-                data: allArticles,
-            });
         } catch (error) {
             console.log(error);
         }
@@ -93,57 +88,7 @@ export class ArticleController {
                 data: allArticles,
             });
 
-            cloudinary.v2.uploader.upload(req.file.path, async function(err, image) {
-                if (err) {
-                    console.log(err);
-                }
-                req.body.image = image.url;
-                const allArticles = await new ArticleServices().updateArticle(
-                    req.params.id
-                );
-                if (req.body.title) {
-                    allArticles.title = req.body.title;
-                }
-                if (req.body.content) {
-                    allArticles.content = req.body.content;
-                }
-                if (req.body.image) {
-                    allArticles.image = req.body.image;
-                }
-                if (req.body.author) {
-                    allArticles.author = req.body.author;
-                }
 
-                // checking for some absent
-
-                // if (!req.body.title) {
-                //     allArticles.title = allArticles.title;
-                // }
-                // if (!req.body.content) {
-                //     allArticles.content = allArticles.content;
-                // }
-                // if (!req.body.image) {
-                //     allArticles.image = allArticles.image;
-                // }
-                // if (!req.body.author) {
-                //     allArticles.author = allArticles.author;
-                // }
-                //ended here
-                if (
-                    req.body.author ||
-                    req.body.image ||
-                    req.body.content ||
-                    req.body.title
-                ) {
-                    allArticles.updatedAt = new Date();
-                }
-
-                res.status(200).json({
-                    status: 200,
-                    message: "you update this article ",
-                    data: allArticles,
-                });
-            });
         } catch (error) {
             console.log(error);
         }
