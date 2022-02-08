@@ -147,7 +147,7 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .set('Content-Type', 'multipart/form-data')
             .field({ title: 'postt1', content: 'hello', author: 'dave' })
-            .attach('image', 'gantt.jpg')
+            .attach('image', 'gantt.JPG')
             .end((req, res) => {
                 articleId = res.body.data._id;
                 expect(res).to.have.status([200]);
