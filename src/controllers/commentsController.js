@@ -47,7 +47,7 @@ export class CommentsController {
                 message: "comment deleted successfully",
             });
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ status: 500, message: "internal server error" })
         }
     }
 }

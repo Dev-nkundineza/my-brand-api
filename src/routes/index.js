@@ -1,9 +1,3 @@
-/*
-@swagger
-components:
-    schemas:
-    comment:
-    type: object */
 import express from "express";
 import userRoutes from "./api/userRoutes.js";
 import welcomeRoutes from "./api/welcomeRoutes.js";

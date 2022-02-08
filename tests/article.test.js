@@ -2,7 +2,7 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/app.js";
 import "dotenv/config";
-import { addcomment, updatedArticleInfo } from "./dummyData.js";
+import { addcomment, addInvalidComment } from "./dummyData.js";
 
 chai.use(chaiHttp);
 describe("ARTICLE END-POINT TESTING", () => {
@@ -73,6 +73,20 @@ describe("ARTICLE END-POINT TESTING", () => {
             });
     });
 
+    //SHOULD NOT ADD INVALID COMMENT
+
+    it("Should create the comment", (done) => {
+        chai
+            .request(app)
+            .post(`/api/v1/comment/${articleId}`)
+            .send(addInvalidComment)
+            .end((err, res) => {
+                expect(res.body).to.have.property("message");
+                expect(res.body).to.have.property("error");
+                done();
+            });
+    });
+
     // SHOULD NOT ADD COMMENT
 
     it("Should not create the comment", (done) => {
@@ -107,7 +121,7 @@ describe("ARTICLE END-POINT TESTING", () => {
 
     //should not retrieve comment
 
-    it("Should  not retrieve thecomment by article by id", (done) => {
+    it("Should  not retrieve the comment by article by id", (done) => {
         chai
             .request(app)
             .get(`/api/v1/comment/`)

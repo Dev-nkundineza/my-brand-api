@@ -10,6 +10,7 @@ export class ArticleController {
         try {
             if (req.file) {
                 req.body.image = await fileUpload(req);
+
             } else {
                 req.body.image =
                     "https://www.kindpng.com/imgv/iThJmoo_white-gray-circle-avatar-png-transparent-png/";

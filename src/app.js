@@ -18,31 +18,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mode = process.env.NODE_ENV || "development";
 
-// const options = {
-//     definition: {
-//         openapi: "3.0.0",
-//         info: {
-//             title: "MY BRAND API",
-//             version: "0.1.0",
-//             description: "This is an API for My brand project",
-//             license: {
-//                 name: "MIT",
-//                 url: "",
-//             },
-//             contact: {
-//                 name: "David N",
-//                 url: "",
-//                 email: "niyonzimadeus2002@gmail.com",
-//             },
-//         },
-//         servers: [{
-//             url: "http://localhost:3000",
-//         }, ],
-//     },
-//     apis: ["./routes/index.js"],
-// };
-// const specs = swaggerJsdoc(options);
-
 try {
     if (mode === "development") {
         mongoose.connect(process.env.DEVELOPMENT_DB, {
@@ -69,8 +44,6 @@ try {
             error: "NOT FOUND"
         })
     })
-
-
 
     app.listen(port, () => {
         console.log(`App Connected to port ,running............ `);

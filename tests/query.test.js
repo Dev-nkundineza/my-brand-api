@@ -2,7 +2,7 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/app.js";
 import "dotenv/config";
-import { userData, validUser, postData, invalidUser, queryData, forupdateUser, updatedArticleInfo } from "./dummyData.js";
+import { userData, validUser, postData, invalidUser, queryData, forupdateUser, EmptyQueryData } from "./dummyData.js";
 import User from "./../src/models/user.js";
 
 chai.use(chaiHttp);
@@ -51,6 +51,8 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
+
+    let queryId = ""
     it("While logged in Should retrieve the queries", (done) => {
         chai
             .request(app)
@@ -58,6 +60,7 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .send()
             .end((err, res) => {
+                queryId = res.body.data[0]._id
                 expect(res).to.have.property("status");
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("data");
@@ -89,16 +92,47 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
     // should add queries
+
     it("should add query", (done) => {
         chai
             .request(app)
             .post("/api/v1/queries")
             .send(queryData)
             .end((req, res) => {
-
                 expect(res).to.have.status([200]);
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("data");
+                expect(res.body).to.be.a("object");
+                done();
+            });
+    });
+
+
+
+    // SHOULD NOT ADD QUERIES
+    it("should add query", (done) => {
+        chai
+            .request(app)
+            .post("/api/v1/queries")
+            .send(EmptyQueryData)
+            .end((req, res) => {
+
+                expect(res.body).to.have.property("error");
+                expect(res.body).to.have.property("message");
+                expect(res.body).to.be.a("object");
+                done();
+            });
+    });
+    // should delete query
+
+    it("should delete query with given id", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/queries/${queryId}`)
+            .send()
+            .end((req, res) => {
+                expect(res.body).to.have.property("message");
+                expect(res.body).to.have.property("status");
                 expect(res.body).to.be.a("object");
                 done();
             });
@@ -111,12 +145,33 @@ describe("QUERY END-POINT TESTING", () => {
             .request(app)
             .post("/api/v1/articles")
             .set("Authorization", `Bearer ${token}`)
-            .send(postData)
+            .set('Content-Type', 'multipart/form-data')
+            .field({ title: 'postt1', content: 'hello', author: 'dave' })
+            .attach('image', './gantt.jpg')
             .end((req, res) => {
                 articleId = res.body.data._id;
                 expect(res).to.have.status([200]);
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("data");
+                expect(res.body).to.be.a("object");
+                done();
+            });
+    });
+
+    //should not add article due to invalid data
+
+    it("should not add article due to invalid data", (done) => {
+
+        chai
+            .request(app)
+            .post("/api/v1/articles")
+            .set("Authorization", `Bearer ${token}`)
+            .set('Content-Type', 'multipart/form-data')
+            .field({ title: 'postt1', author: 'dave' })
+            .attach('image', './gantt.jpg')
+            .end((req, res) => {
+                expect(res.body).to.have.property("message");
+                expect(res.body).to.have.property("error");
                 expect(res.body).to.be.a("object");
                 done();
             });
@@ -137,6 +192,21 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
+    // SHOULD NOT ADD POST DUE TO WRONG IMAGE FILE
+    it("should not upload wrong image file", (done) => {
+
+        chai
+            .request(app)
+            .post("/api/v1/articles")
+            .set("Authorization", `Bearer ${token}`)
+            .set('Content-Type', 'multipart/form-data')
+            .field({ title: 'postt1', content: 'hello', author: 'dave' })
+            .attach('image', 'README.md')
+            .end((req, res) => {
+                expect(res).to.have.status([500]);
+                done();
+            });
+    });
 
     //should get users
     let userId = ''
@@ -205,8 +275,7 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
     //should not get one user
-
-    it("should get one users", (done) => {
+    it("should not get one users", (done) => {
         chai
             .request(app)
             .get(`/api/v1/user/${userId}`)
@@ -218,13 +287,48 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
-    //SHOULD UPDATE ARTICLE
-    it("Should  retrieve the comment by article id", (done) => {
+    // SHOULD DELETE ON USER WITH GIVEN ID
+
+    it("should delete users with given id", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/user/${userId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send()
+            .end((req, res) => {
+                expect(res).to.have.status([200]);
+                expect(res.body).to.have.property("status");
+                expect(res.body).to.have.property("message");
+                done();
+            });
+    });
+
+
+
+    // SHOULD NOT DELETE USER WITH GIVEN ID
+
+    it("should not delete users with given id", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/user/${userId}`)
+            .send()
+            .end((req, res) => {
+                expect(res).to.have.status([401]);
+                expect(res.body).to.have.property("message");
+                done();
+            });
+    });
+
+
+    //SHOULD RETRIEVE THE COMMENT BY ARTICLE ID
+    it("Should  update article ", (done) => {
         chai
             .request(app)
             .patch(`/api/v1/articles/${articleId}`)
             .set("Authorization", `Bearer ${token}`)
-            .send(updatedArticleInfo)
+            .set('Content-Type', 'multipart/form-data')
+            .field({ title: 'updated post 200', content: 'hello updates', author: 'davido' })
+            .attach('image', './gantt.jpg')
             .end((err, res) => {
 
                 expect(res).to.have.status([200]);

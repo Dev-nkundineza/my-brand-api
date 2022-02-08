@@ -158,6 +158,7 @@
                 "summary": "update user info",
                 "description": " update user",
                 "operationId": "updatedUser",
+                "consumes": ["multipart/form-data"],
                 "produces": ["application/json"],
                 "parameters": [{
                         "name": "userId",
@@ -167,18 +168,18 @@
                     }, {
                         "name": "username",
                         "in": "formData",
-                        "description": "Username",
-                        "required": true
+                        "description": "Username"
+
                     }, {
                         "name": "email",
                         "in": "formData",
-                        "description": "email",
-                        "required": true
+                        "description": "email"
+
                     }, {
                         "name": "password",
                         "in": "formData",
-                        "description": "password",
-                        "required": true
+                        "description": "password"
+
                     }, {
                         "name": "picture",
                         "in": "formData",
@@ -365,27 +366,24 @@
                     {
                         "name": "title",
                         "in": "formData",
-                        "description": "title",
-                        "required": true
+                        "description": "title"
+
                     },
                     {
                         "name": "content",
                         "in": "formData",
-                        "description": "content",
-                        "required": true
+                        "description": "content"
                     },
                     {
                         "name": "image",
                         "in": "formData",
                         "type": "file",
-                        "description": "image",
-                        "required": true
+                        "description": "image"
 
                     }, {
                         "name": "author",
                         "in": "formData",
-                        "description": "author",
-                        "required": true
+                        "description": "author"
                     }
 
                 ],
