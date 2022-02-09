@@ -105,11 +105,12 @@ export class ArticleController {
                 res.status(404).json({
                     message: "the article you are trying to delete doesn't exist",
                 });
+            } else {
+                res.json({ status: 204, message: "deleted successfully" });
             }
-            res.json({ status: 204, message: "deleted successfully" });
 
-            await new ArticleServices().deleteArticle(req.params.id);
-            res.status(204).json({ status: 204, message: "deleted successfully" });
+
+
         } catch (error) {
             console.log(error);
         }
