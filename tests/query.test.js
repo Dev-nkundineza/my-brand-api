@@ -221,7 +221,6 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .set('Content-Type', 'multipart/form-data')
             .field({ title: 'postt1', author: 'dave' })
-            .attach('image', 'gantt.jpg')
             .end((req, res) => {
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("error");
