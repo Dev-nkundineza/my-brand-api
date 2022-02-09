@@ -8,6 +8,11 @@ export const invalidUser = {
     password: "Pass1234@",
 };
 
+export const invalidPassword = {
+    email: "hello123@gmail.com",
+    password: "Pass12@"
+}
+
 export const userData = {
     username: "ihonore",
     email: "hello123@gmail.com",

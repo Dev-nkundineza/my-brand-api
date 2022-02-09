@@ -47,7 +47,7 @@ export class QueryController {
             await new QueryServices().deleteQuery(req.params.id);
             res.json({ status: 204, message: "deleted successfully..........." });
         } catch (error) {
-            console.log(error);
+            res.status(500).json({ error: "internal server error " })
         }
     }
 }

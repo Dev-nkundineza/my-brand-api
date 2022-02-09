@@ -169,4 +169,15 @@ describe("ARTICLE END-POINT TESTING", () => {
                 done();
             });
     });
+    it("Should  not delete the article by id with no id", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/articles/`)
+            .send()
+            .end((err, res) => {
+                expect(res).to.have.status([404]);
+                expect(res).to.have.property("error");
+                done();
+            });
+    });
 });

@@ -2,7 +2,7 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/app.js";
 import "dotenv/config";
-import { userData, validUser, postData, invalidUser, queryData, forupdateUser, EmptyQueryData } from "./dummyData.js";
+import { userData, validUser, postData, invalidUser, queryData, forupdateUser, EmptyQueryData, invalidPassword } from "./dummyData.js";
 import User from "./../src/models/user.js";
 
 chai.use(chaiHttp);
@@ -18,6 +18,20 @@ describe("QUERY END-POINT TESTING", () => {
             .send(userData)
             .end((err, res) => {
                 expect(res).to.have.status([201]);
+                done();
+            });
+    });
+
+    // check existing user
+    it("It should not register the user", (done) => {
+        chai
+            .request(app)
+            .post("/api/v1/user/register")
+            .send(userData)
+            .end((err, res) => {
+                expect(res).to.have.status([409]);
+                expect(res).to.have.property("status");
+
                 done();
             });
     });
@@ -51,7 +65,20 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
+    //checking mismatch password
+    it("It should not loggin the user with wrong password", (done) => {
+        chai
+            .request(app)
+            .post("/api/v1/user/login")
+            .send(invalidPassword)
+            .end((err, res) => {
+                expect(res).status([403]);
+                expect(res.body).to.have.property("message");
 
+                done();
+            });
+    });
+    //end
     let queryId = ""
     it("While logged in Should retrieve the queries", (done) => {
         chai
@@ -124,8 +151,21 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
     // should delete query
+    it("should  delete query with given id while login", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/queries/${queryId}`)
+            .set("Authorization", `Bearer ${token}`)
+            .send()
+            .end((req, res) => {
+                expect(res.body).to.have.property("message");
+                expect(res.body).to.have.property("status");
+                expect(res.body).to.be.a("object");
+                done();
+            });
+    });
 
-    it("should delete query with given id", (done) => {
+    it("should not delete query with given id without login", (done) => {
         chai
             .request(app)
             .delete(`/api/v1/queries/${queryId}`)
@@ -133,6 +173,20 @@ describe("QUERY END-POINT TESTING", () => {
             .end((req, res) => {
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("status");
+                expect(res.body).to.be.a("object");
+                done();
+            });
+    });
+    //should not delete query
+
+    it("should delete query with given invali id", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/queries/jata5646677`)
+            .send()
+            .end((req, res) => {
+                expect(res.body).to.have.property("message");
+                expect(res.body).to.have.status([401]);
                 expect(res.body).to.be.a("object");
                 done();
             });
@@ -147,7 +201,6 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .set('Content-Type', 'multipart/form-data')
             .field({ title: 'postt1', content: 'hello', author: 'dave' })
-            .attach('image', 'gantt.JPG')
             .end((req, res) => {
                 articleId = res.body.data._id;
                 expect(res).to.have.status([200]);
@@ -319,6 +372,18 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
+    it("should not delete users with given id", (done) => {
+        chai
+            .request(app)
+            .delete(`/api/v1/user/rf45fffffaaa`)
+            .set("Authorization", `Bearer ${token}`)
+            .send()
+            .end((req, res) => {
+                expect(res).to.have.status([404]);
+                expect(res.body).to.have.property("error");
+                done();
+            });
+    });
 
     //SHOULD RETRIEVE THE COMMENT BY ARTICLE ID
     it("Should  update article ", (done) => {
@@ -328,14 +393,14 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .set('Content-Type', 'multipart/form-data')
             .field({ title: 'updated post 200', content: 'hello updates', author: 'davido' })
-            .attach('image', 'gantt.jpg')
-            .end((err, res) => {
 
-                expect(res).to.have.status([200]);
-                expect(res).to.have.property("status");
-                expect(res.body).to.have.property("message");
-                expect(res.body).to.have.property("data");
-                done();
-            });
+        .end((err, res) => {
+
+            expect(res).to.have.status([200]);
+            expect(res).to.have.property("status");
+            expect(res.body).to.have.property("message");
+            expect(res.body).to.have.property("data");
+            done();
+        });
     });
 });
