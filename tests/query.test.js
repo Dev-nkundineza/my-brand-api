@@ -269,7 +269,6 @@ describe("QUERY END-POINT TESTING", () => {
         chai
             .request(app)
             .get("/api/v1/user/")
-            .set("Authorization", `Bearer ${token}`)
             .send()
             .end((req, res) => {
                 userId = res.body.data[0]._id;
@@ -317,7 +316,6 @@ describe("QUERY END-POINT TESTING", () => {
         chai
             .request(app)
             .get(`/api/v1/user/${userId}`)
-            .set("Authorization", `Bearer ${token}`)
             .send()
             .end((req, res) => {
                 expect(res).to.have.status([200]);
@@ -331,11 +329,11 @@ describe("QUERY END-POINT TESTING", () => {
     it("should not get one users", (done) => {
         chai
             .request(app)
-            .get(`/api/v1/user/${userId}`)
+            .get(`/api/v1/users/${userId}`)
             .send()
             .end((req, res) => {
-                expect(res).to.have.status([401]);
-                expect(res.body).to.have.property("message");
+                expect(res).to.have.status([404]);
+                expect(res.body).to.have.property("error");
                 done();
             });
     });

@@ -20,8 +20,8 @@ route.post(
     userControllels.createProfile
 );
 route.post("/login", userControllels.login);
-route.get("", authatication, userControllels.getAlluser);
-route.get("/:id", authatication, userControllels.getOneUser);
+route.get("", userControllels.getAlluser);
+route.get("/:id", userControllels.getOneUser);
 route.delete("/:id", authatication, userControllels.deleteUser);
 route.patch("/:id", authatication, uploads.single("image"), userControllels.updateProfile);
 
