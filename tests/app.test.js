@@ -13,13 +13,12 @@ describe("APP TESTING", () => {
             .get("/")
             .send()
             .end((err, res) => {
-                expect(res).to.have.status([200])
+                expect(res).to.have.status([200]);
                 expect(res.body).to.have.property("message");
 
                 done();
             });
     });
-
 
     // SHOULD DIPLAY ERROR 404 NOT FOUND
 
@@ -29,7 +28,7 @@ describe("APP TESTING", () => {
             .get("/david")
             .send()
             .end((err, res) => {
-                expect(res).to.have.status([404])
+                expect(res).to.have.status([404]);
                 expect(res.body).to.have.property("error");
                 done();
             });

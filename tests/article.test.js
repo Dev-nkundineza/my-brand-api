@@ -57,8 +57,6 @@ describe("ARTICLE END-POINT TESTING", () => {
             });
     });
 
-
-
     // SHOULD ADD COMMENT
     it("Should create the comment", (done) => {
         chai
@@ -102,7 +100,7 @@ describe("ARTICLE END-POINT TESTING", () => {
 
     //should get comments per article using articleId
 
-    let commentId = ""
+    let commentId = "";
 
     it("Should  retrieve the comment by article id", (done) => {
         chai
@@ -110,7 +108,7 @@ describe("ARTICLE END-POINT TESTING", () => {
             .get(`/api/v1/comment/${articleId}`)
             .send()
             .end((err, res) => {
-                commentId = res.body.data[0]._id
+                commentId = res.body.data[0]._id;
                 expect(res).to.have.status([200]);
                 expect(res).to.have.property("status");
                 expect(res.body).to.have.property("message");

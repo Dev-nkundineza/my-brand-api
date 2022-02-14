@@ -2,7 +2,16 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import app from "../src/app.js";
 import "dotenv/config";
-import { userData, validUser, postData, invalidUser, queryData, forupdateUser, EmptyQueryData, invalidPassword } from "./dummyData.js";
+import {
+    userData,
+    validUser,
+    postData,
+    invalidUser,
+    queryData,
+    forupdateUser,
+    EmptyQueryData,
+    invalidPassword,
+} from "./dummyData.js";
 import User from "./../src/models/user.js";
 
 chai.use(chaiHttp);
@@ -79,7 +88,7 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
     //end
-    let queryId = ""
+    let queryId = "";
     it("While logged in Should retrieve the queries", (done) => {
         chai
             .request(app)
@@ -87,7 +96,7 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .send()
             .end((err, res) => {
-                queryId = res.body.data[0]._id
+                queryId = res.body.data[0]._id;
                 expect(res).to.have.property("status");
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("data");
@@ -134,8 +143,6 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
-
-
     // SHOULD NOT ADD QUERIES
     it("should add query", (done) => {
         chai
@@ -143,7 +150,6 @@ describe("QUERY END-POINT TESTING", () => {
             .post("/api/v1/queries")
             .send(EmptyQueryData)
             .end((req, res) => {
-
                 expect(res.body).to.have.property("error");
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.be.a("object");
@@ -194,13 +200,12 @@ describe("QUERY END-POINT TESTING", () => {
     //adding articles while logged in
     let articleId = "";
     it("should add article while logged in", (done) => {
-
         chai
             .request(app)
             .post("/api/v1/articles")
             .set("Authorization", `Bearer ${token}`)
-            .set('Content-Type', 'multipart/form-data')
-            .field({ title: 'postt1', content: 'hello', author: 'dave' })
+            .set("Content-Type", "multipart/form-data")
+            .field({ title: "postt1", content: "hello", author: "dave" })
             .end((req, res) => {
                 articleId = res.body.data._id;
                 expect(res).to.have.status([200]);
@@ -214,13 +219,12 @@ describe("QUERY END-POINT TESTING", () => {
     //should not add article due to invalid data
 
     it("should not add article due to invalid data", (done) => {
-
         chai
             .request(app)
             .post("/api/v1/articles")
             .set("Authorization", `Bearer ${token}`)
-            .set('Content-Type', 'multipart/form-data')
-            .field({ title: 'postt1', author: 'dave' })
+            .set("Content-Type", "multipart/form-data")
+            .field({ title: "postt1", author: "dave" })
             .end((req, res) => {
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.have.property("error");
@@ -246,14 +250,13 @@ describe("QUERY END-POINT TESTING", () => {
 
     // SHOULD NOT ADD POST DUE TO WRONG IMAGE FILE
     it("should not upload wrong image file", (done) => {
-
         chai
             .request(app)
             .post("/api/v1/articles")
             .set("Authorization", `Bearer ${token}`)
-            .set('Content-Type', 'multipart/form-data')
-            .field({ title: 'postt1', content: 'hello', author: 'dave' })
-            .attach('image', 'README.md')
+            .set("Content-Type", "multipart/form-data")
+            .field({ title: "postt1", content: "hello", author: "dave" })
+            .attach("image", "README.md")
             .end((req, res) => {
                 expect(res).to.have.status([500]);
                 done();
@@ -261,7 +264,7 @@ describe("QUERY END-POINT TESTING", () => {
     });
 
     //should get users
-    let userId = ''
+    let userId = "";
     it("should get all users", (done) => {
         chai
             .request(app)
@@ -269,7 +272,7 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .send()
             .end((req, res) => {
-                userId = res.body.data[0]._id
+                userId = res.body.data[0]._id;
                 expect(res).to.have.status([200]);
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.be.a("object");
@@ -279,7 +282,6 @@ describe("QUERY END-POINT TESTING", () => {
     });
     //should update user
 
-
     it("should update user with given id", (done) => {
         chai
             .request(app)
@@ -287,7 +289,6 @@ describe("QUERY END-POINT TESTING", () => {
             .set("Authorization", `Bearer ${token}`)
             .send(forupdateUser)
             .end((req, res) => {
-
                 expect(res).to.have.status([200]);
                 expect(res.body).to.have.property("message");
                 expect(res.body).to.be.a("object");
@@ -355,8 +356,6 @@ describe("QUERY END-POINT TESTING", () => {
             });
     });
 
-
-
     // SHOULD NOT DELETE USER WITH GIVEN ID
 
     it("should not delete users with given id", (done) => {
@@ -390,11 +389,14 @@ describe("QUERY END-POINT TESTING", () => {
             .request(app)
             .patch(`/api/v1/articles/${articleId}`)
             .set("Authorization", `Bearer ${token}`)
-            .set('Content-Type', 'multipart/form-data')
-            .field({ title: 'updated post 200', content: 'hello updates', author: 'davido' })
+            .set("Content-Type", "multipart/form-data")
+            .field({
+                title: "updated post 200",
+                content: "hello updates",
+                author: "davido",
+            })
 
         .end((err, res) => {
-
             expect(res).to.have.status([200]);
             expect(res).to.have.property("status");
             expect(res.body).to.have.property("message");
