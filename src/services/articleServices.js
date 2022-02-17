@@ -27,6 +27,7 @@ export class ArticleServices {
                 singleArticle.content;
             singleArticle.image = data.image ? data.image : singleArticle.image;
             singleArticle.author = data.author ? data.author : singleArticle.author;
+            singleArticle.status = data.status ? data.status : singleArticle.status;
             const updatedArticle = await singleArticle.save();
             return updatedArticle;
         }

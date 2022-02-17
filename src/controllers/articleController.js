@@ -21,6 +21,7 @@ export class ArticleController {
                 content: req.body.content,
                 image: req.body.image,
                 author: req.body.author,
+                status: false
             };
             const _CreateArticle = await new ArticleServices().createArticle(data);
             res.status(200).json({
