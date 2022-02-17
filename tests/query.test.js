@@ -269,6 +269,7 @@ describe("QUERY END-POINT TESTING", () => {
         chai
             .request(app)
             .get("/api/v1/user/")
+            .set("Authorization", `Bearer ${token}`)
             .send()
             .end((req, res) => {
                 userId = res.body.data[0]._id;
@@ -316,6 +317,7 @@ describe("QUERY END-POINT TESTING", () => {
         chai
             .request(app)
             .get(`/api/v1/user/${userId}`)
+            .set("Authorization", `Bearer ${token}`)
             .send()
             .end((req, res) => {
                 expect(res).to.have.status([200]);
