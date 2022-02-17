@@ -1,4 +1,5 @@
 import Account from "../models/user.js";
+import { hashPassword } from "../helpers/passwordSecurity.js"
 
 export const userExist = async(email) => {
     const user = await Account.findOne({ email: email });
@@ -23,9 +24,11 @@ export const updateUser = async(id, data) => {
             return false;
         } else {
 
+
+
             user.username = data.username ? data.username : user.username;
             user.email = data.email ? data.email : user.email;
-            user.password = data.password ? data.password : user.password;
+            user.password = data.password ? await hashPassword(data.password) : user.password;
             user.picture = data.picture ? data.picture : user.picture;
             const updatedUser = await user.save();
             return updatedUser;
