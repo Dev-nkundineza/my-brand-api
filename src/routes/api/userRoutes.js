@@ -23,6 +23,6 @@ route.post("/login", userControllels.login);
 route.get("", userControllels.getAlluser);
 route.get("/:id", userControllels.getOneUser);
 route.delete("/:id", authatication, userControllels.deleteUser);
-route.patch("/:id", authatication, uploads.single("image"), userControllels.updateProfile);
+route.patch("/:id", authatication, uploads.single("picture"), userControllels.updateProfile);
 
 export default route;
