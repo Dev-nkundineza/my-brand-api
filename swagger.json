@@ -1,0 +1,628 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "MY BRAND API",
+        "description": "my brand api",
+        "version": "1.0.0",
+        "contact": {
+            "name": "David NKUNDINEZA",
+            "email": "niyonzimadeus2002@gmail.com"
+        }
+    },
+
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "servers": [{
+        "url": "http://localhost:3000",
+        "name": "DEV"
+    }],
+
+    "paths": {
+        "/": {
+            "get": {
+                "security": {
+                    "bearerAuth": []
+                },
+                "tags": ["Home"],
+                "summary": "Home",
+                "description": "Home",
+                "operationId": "getHome",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "security": {
+                        "bearerAuth": []
+                    }
+                }
+            }
+        },
+
+
+        "/api/v1/user/register": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "register a user",
+                "description": "user registration",
+                "operationId": "user registration",
+                "parameters": [{
+                    "name": "username",
+                    "in": "formData",
+                    "description": "Username",
+                    "required": true
+                }, {
+                    "name": "email",
+                    "in": "formData",
+                    "description": "email",
+                    "required": true
+                }, {
+                    "name": "password",
+                    "in": "formData",
+                    "description": "password",
+                    "required": true
+                }, {
+                    "name": "picture",
+                    "in": "formData",
+                    "type": "file",
+                    "description": "picture"
+
+                }],
+                "responses": {
+                    "201": {
+                        "description": "user registered Successfully"
+
+                    }
+
+                }
+            }
+        },
+
+
+        "/api/v1/user/login": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Login",
+                "description": "Login",
+                "operationId": "postUsersLogin",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "description": "Login",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Login"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/v1/user": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Get all users",
+                "description": "Get all users",
+                "operationId": "getUsers",
+
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            }
+        },
+        "/api/v1/user/{userId}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "get single user info",
+                "description": " ",
+                "consumes": ["multipart/form-data"],
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "userId",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "successfully user retrieved"
+                    },
+                    "404": {
+                        "description": "user not found"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            },
+            "patch": {
+                "tags": ["Users"],
+                "summary": "update user info",
+                "description": " update user",
+                "operationId": "updatedUser",
+                "consumes": ["multipart/form-data"],
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "userId",
+                        "in": "path",
+                        "type": "string",
+                        "required": true
+                    }, {
+                        "name": "username",
+                        "in": "formData",
+                        "description": "Username"
+
+                    }, {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "email"
+
+                    }, {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "password"
+
+                    }, {
+                        "name": "picture",
+                        "in": "formData",
+                        "type": "file",
+                        "description": "picture"
+
+
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successfully updated user with given id"
+                    },
+                    "409": {
+                        "description": "please fill in all fields"
+                    },
+                    "404": {
+                        "description": "user you want to update does not exist"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            },
+            "delete": {
+                "tags": ["Users"],
+                "summary": "delete a user with id",
+                "description": " delete user",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "userId",
+                    "in": "path",
+                    "type": "string",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User account with given email deleted successfully!"
+                    },
+                    "404": {
+                        "description": "User account with that email not found"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            }
+
+
+
+        },
+
+        "/api/v1/articles": {
+            "get": {
+                "tags": ["Articles"],
+                "summary": "Get all articles",
+                "description": "Get all articles",
+                "operationId": "getArticles",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Articles"],
+                "summary": "Create article",
+                "description": "Create article",
+                "operationId": "postArticles",
+                "parameters": [{
+                        "name": "title",
+                        "in": "formData",
+                        "description": "title",
+                        "required": true
+                    },
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "content",
+                        "required": true
+                    },
+                    {
+                        "name": "image",
+                        "in": "formData",
+                        "type": "file",
+                        "description": "image",
+                        "required": true
+                    }, {
+                        "name": "author",
+                        "in": "formData",
+                        "description": "author",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            }
+        },
+
+
+
+        "/api/v1/articles/{articleId}": {
+            "get": {
+                "tags": ["Articles"],
+                "summary": "get article by id",
+                "description": "get article by id",
+                "operationId": "articleId",
+
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": "get article by id",
+                    "required": true
+
+                }],
+                "responses": {
+                    "200": {
+                        "description": "retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/articleId"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid ID Supplied"
+                    },
+                    "404": {
+                        "description": "article not found"
+                    }
+                }
+
+            },
+            "delete": {
+                "tags": ["Articles"],
+                "summary": "delete article by id",
+                "description": "delete article by id",
+                "operationId": "delArticle",
+
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": " Enter article ID in the path",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "204": {
+                        "description": "deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/deleteId"
+                        }
+                    },
+                    "400": {
+                        "description": "invalid ID Supplied"
+                    },
+                    "404": {
+                        "description": "article not found"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            },
+
+            "patch": {
+                "tags": ["Articles"],
+                "summary": "update the article with given id",
+                "description": " ",
+                "operationId": "updateArticle",
+                "produces": ["application/json"],
+                "parameters": [{
+                        "name": "articleId",
+                        "in": "path",
+                        "description": " Enter article ID in the path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "description": "title"
+
+                    },
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "content"
+                    },
+                    {
+                        "name": "image",
+                        "in": "formData",
+                        "type": "file",
+                        "description": "image"
+
+                    }, {
+                        "name": "author",
+                        "in": "formData",
+                        "description": "author"
+                    }
+
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Article updated successfully!"
+                    },
+                    "404": {
+                        "description": "article with that id not found"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            }
+        },
+        "/api/v1/comment/{articleId}": {
+            "post": {
+                "tags": ["Comment"],
+                "summary": "add comment",
+                "description": "add comment",
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": "get article  id",
+                    "required": true
+
+                }, {
+                    "name": "Comment section",
+                    "in": "body",
+                    "description": "Leave a comment",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Comment"
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "comment added successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        }
+
+                    }
+                }
+
+            },
+            "get": {
+                "tags": ["Comment"],
+                "summary": "Get all comments of given article",
+                "description": "Get all comments of given article",
+                "operationId": "getComments",
+                "parameters": [{
+                    "name": "articleId",
+                    "in": "path",
+                    "description": " Enter the article ID",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "All comments retrieved successfuly!"
+                    }
+                }
+            }
+        },
+        "/api/v1/queries": {
+            "get": {
+                "tags": ["Queries"],
+                "summary": "Get all queries",
+                "description": "Get all queries",
+                "operationId": "getQueries",
+
+                "responses": {
+                    "200": {
+                        "description": "All Queries retrieved successfuly!"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            },
+            "post": {
+                "tags": ["Queries"],
+                "summary": "Send a query",
+                "description": "Send a query",
+                "operationId": "query",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "description": "Send a query",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Query"
+                    }
+                }],
+                "responses": {
+                    "201": {
+                        "description": "Message sent successfuly!"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/queries/{queryId}": {
+            "delete": {
+                "tags": ["Queries"],
+                "summary": "delete a query with given ID",
+                "description": " ",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "queryId",
+                    "in": "path",
+                    "descrpition": "Please enter a query id here",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Query deleted Successfuly"
+                    },
+                    "404": {
+                        "description": "Query not found"
+                    }
+                },
+                "security": [{
+                    "Bearer": []
+                }]
+            }
+
+        }
+    },
+    "definitions": {
+        "Login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "articleId": {
+            "type": "string",
+            "properties": {
+                "Id": {
+                    "type": "string"
+                }
+            }
+
+
+        },
+        "deleteId": {
+            "type": "string",
+            "Id": {
+                "type": "string"
+            }
+        },
+        "register": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                }
+            }
+
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "file"
+                }
+            }
+        },
+        "Comment": {
+            "type": "object",
+            "required": ["name", "comment"],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "comment": {
+                    "type": "string"
+                }
+
+            }
+        },
+        "Article": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "file"
+                }
+            }
+        },
+        "Query": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+
+            }
+        }
+
+    }
+}

@@ -1,6 +1,10 @@
 import express from "express";
 import multer from "multer";
 import { ArticleController } from "../../controllers/articleController.js";
+import { authenticate } from "../../middlewares/authanticate.js";
+import { articleValidation } from "../../validations/articleValidation/articleValidation.js";
+
+const authatication = new authenticate().auth;
 
 const route = express.Router();
 const storage = multer.diskStorage({});
@@ -14,11 +18,21 @@ const fileFilter = (req, file, cb) => {
 const uploads = multer({ storage, fileFilter });
 const articleControllers = new ArticleController();
 
-route.post("/", uploads.single("image"), articleControllers.createArticle);
+route.post(
+    "/",
+    authatication,
+    uploads.single("image"),
+    articleValidation,
+    articleControllers.createArticle
+);
 route.get("/", articleControllers.getAllArticles);
 route.get("/:id", articleControllers.getArticle);
-route.patch("/:id", uploads.single("image"), articleControllers.updateArticle);
-route.delete("/:id", articleControllers.deleteArticle);
+route.patch(
+    "/:id",
+    authatication,
+    uploads.single("image"), articleControllers.updateArticle
+);
+route.delete("/:id", authatication, articleControllers.deleteArticle);
 
 // create Article
 
